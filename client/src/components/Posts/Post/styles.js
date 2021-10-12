@@ -1,8 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
-import useStyles from "./styles";
 
 export default makeStyles({
-  const classes = useStyles();
   media: {
     height: 0,
     paddingTop: "56.25%",
