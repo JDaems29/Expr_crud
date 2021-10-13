@@ -12,7 +12,7 @@ const Form = ({ currentId, setCurrentId }) => {
   const dispatch = useDispatch();
 
   const [postData, setPostData] = useState({
-    name: "",
+    creator: "",
     title: "",
     message: "",
     tags: "",
@@ -32,11 +32,22 @@ const Form = ({ currentId, setCurrentId }) => {
 
     if (currentId) {
       dispatch(updatePost(currentId, postData));
+      clear();
     } else {
       dispatch(createPost(postData));
+      clear();
     }
   };
-  const clear = () => {};
+  const clear = () => {
+    setCurrentId = null;
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
+  };
 
   return (
     <Paper className={classes.paper}>
@@ -46,7 +57,9 @@ const Form = ({ currentId, setCurrentId }) => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Creating an Experience</Typography>
+        <Typography variant="h6">
+          {currentId ? "Editing" : "Creating"} an Experience
+        </Typography>
         <TextField
           name="creator"
           variant="outlined"
@@ -81,7 +94,9 @@ const Form = ({ currentId, setCurrentId }) => {
           label="Tags"
           fullWidth
           value={postData.tags}
-          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+          onChange={(e) =>
+            setPostData({ ...postData, tags: e.target.value.split(",") })
+          }
         />
         <div className={classes.fileInput}>
           <FileBase64
